@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/getAllBuildingData', 'App\Http\Controllers\BuildingController@getAllBuildingData');
+Route::post('/insertBuilding', 'App\Http\Controllers\BuildingController@insertBuilding');
+Route::post('/getBuildingById', 'App\Http\Controllers\BuildingController@getBuildingById');
+Route::post('/deleteBuilding', 'App\Http\Controllers\BuildingController@deleteBuilding');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
