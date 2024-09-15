@@ -91,7 +91,6 @@ class BuildingController extends Controller
         }
     }
 
-    public function ubdateBuilding(Request $request){
-
-    }
+    public function ubdateBuilding(Request $request)
+    {}
 }
