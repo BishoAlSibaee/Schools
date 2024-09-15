@@ -9,3 +9,4 @@ Route::get('/getAllBuildingData', [BuildingController::class,'getAllBuildingData
 Route::post('/insertBuilding', [BuildingController::class,'insertBuilding']);
 Route::post('/getBuildingById', [BuildingController::class,'getBuildingById']);
 Route::post('/deleteBuilding', [BuildingController::class,'deleteBuilding']);
+Route::post('/ubdateBuilding', [BuildingController::class,'ubdateBuilding']);

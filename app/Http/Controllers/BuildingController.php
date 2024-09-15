@@ -12,13 +12,13 @@ include('ConstFunction.php');
 
 class BuildingController extends Controller
 {
-    public function getAllBuildingData(Request $request)
+    public function getAllBuildingData()
     {
         $data = BuildingModel::all();
         if (count($data) > 0) {
-            return messageRequest(1,'success', $data);
+            return messageRequest(1, 'success', $data);
         } else {
-            return messageRequest(0,'Warning', "data is empty");
+            return messageRequest(0, 'Warning', "data is empty");
         }
     }
 
@@ -29,10 +29,10 @@ class BuildingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return messageRequest(-1,"error", $validator->errors());
+            return messageRequest(-1, "error", $validator->errors());
         }
 
-        return messageRequest(1,"success", BuildingModel::find($request->idBuliding));
+        return messageRequest(1, "success", BuildingModel::find($request->idBuliding));
     }
 
     public function insertBuilding(Request $request)
@@ -46,7 +46,7 @@ class BuildingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return messageRequest(-1,"error", $validator->errors());
+            return messageRequest(-1, "error", $validator->errors());
         }
 
         $building = new  BuildingModel();
@@ -57,12 +57,11 @@ class BuildingController extends Controller
         $building->building_count_floor = $request->building_count_floor;
         //First add default value =  1    0=>inactive |  1=>active
         $building->building_active = 1;
-        try{
+        try {
             $building->save();
-            return messageRequest(1,'success', "Add Building Successfuly");
-        }
-        catch(Exception $e){
-            return messageRequest(-1,'Warning', $e);
+            return messageRequest(1, 'success', "Add Building Successfuly");
+        } catch (Exception $e) {
+            return messageRequest(-1, 'Warning', $e);
         }
     }
 
@@ -73,20 +72,63 @@ class BuildingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return messageRequest(-1,"error", $validator->errors());
+            return messageRequest(-1, "error", $validator->errors());
         }
 
-        
+
         try {
             $building = BuildingModel::find($request->idBuliding);
             $building->delete();
-            return messageRequest(1,'success', "Delete Building Successfuly");
-        }
-        catch(Exception $e){
-            return messageRequest(-1,'Warning', $e);
+            return messageRequest(1, 'success', "Delete Building Successfuly");
+        } catch (Exception $e) {
+            return messageRequest(-1, 'Warning', $e);
         }
     }
 
     public function ubdateBuilding(Request $request)
-    {}
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric|exists:building,id',
+            'building_name' => 'nullable|string|max:50',
+            'building_number' => 'nullable|integer',
+            'building_la' => 'nullable|numeric',
+            'building_lo' => 'nullable|numeric',
+            'building_count_floor' => 'nullable|integer',
+            'building_active' => 'nullable|boolean',
+        ]);
+        if ($validator->fails()) {
+            return messageRequest(-1, "error", $validator->errors());
+        }
+        $building = BuildingModel::find($request->id);
+        if ($request->has('building_name')) {
+            $building->building_name = $request->building_name;
+        }
+
+        if ($request->has('building_number')) {
+            $building->building_number = $request->building_number;
+        }
+
+        if ($request->has('building_la')) {
+            $building->building_la = $request->building_la;
+        }
+
+        if ($request->has('building_lo')) {
+            $building->building_lo = $request->building_lo;
+        }
+
+        if ($request->has('building_count_floor')) {
+            $building->building_count_floor = $request->building_count_floor;
+        }
+
+        if ($request->has('building_active')) {
+            $building->building_active = $request->building_active;
+        }
+
+        try {
+            $building->save();
+            return messageRequest(1, 'success', "Building updated successfully");
+        } catch (Exception $e) {
+            return messageRequest(-1, 'Warning', $e);
+        }
+    }
 }
