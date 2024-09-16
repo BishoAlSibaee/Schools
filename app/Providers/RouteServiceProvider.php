@@ -45,6 +45,11 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix('floor')
             ->group(base_path('routes/floor.php'));
 
+            Route::middleware('api')
+            ->namespace(value:$this->namespace)
+            ->prefix('stage')
+            ->group(base_path('routes/stage.php'));
+
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
